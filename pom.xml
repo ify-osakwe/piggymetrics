@@ -11,14 +11,18 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.3.RELEASE</version>
+		<version>2.3.12.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
-		<java.version>1.8</java.version>
+<!--		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>-->
+<!--		<java.version>1.8</java.version>-->
+		<!-- Spring Cloud train that matches Boot 2.3 -->
+		<spring-cloud.version>Hoxton.SR12</spring-cloud.version>
+		<!-- Move to the LTS JDK that Boot 2.3 targets -->
+		<java.version>11</java.version>
 	</properties>
 
 	<dependencyManagement>
@@ -32,6 +36,29 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Compile with release 11 everywhere -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.11.0</version>
+					<configuration>
+						<release>${java.version}</release>
+					</configuration>
+				</plugin>
+
+				<!-- Spring Boot plug-in for repackage, build-image, layered-jar -->
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+	</build>
 	
 	<modules>
 		<module>config</module>
