@@ -1,5 +1,13 @@
+name: piggymetrics
 
-
+services:
+  config:
+    build:
+      context: ./config
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    ports:
+      - "8888:8888"
 
 
 
