@@ -1,4 +1,4 @@
-package com.piggymetrics.auth.domain;
+package github.com.rexfilius.auth.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -1,4 +1,4 @@
-package com.piggymetrics.auth;
+package github.com.rexfilius.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

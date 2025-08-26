@@ -1,13 +1,12 @@
-package com.piggymetrics.auth.service;
+package github.com.rexfilius.auth.service;
 
-import com.piggymetrics.auth.domain.User;
-import com.piggymetrics.auth.repository.UserRepository;
+import github.com.rexfilius.auth.domain.User;
+import github.com.rexfilius.auth.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.Optional;
 

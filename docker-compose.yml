@@ -9,6 +9,28 @@ services:
     ports:
       - "8888:8888"
 
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    restart: always
+    ports:
+      - "5672:5672"     # AMQP
+      - "15672:15672"   # HTTP management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: def_user
+      RABBITMQ_DEFAULT_PASS: def_password
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+
+volumes:
+  rabbitmq-data:
+
 
 
 #version: '2.1'

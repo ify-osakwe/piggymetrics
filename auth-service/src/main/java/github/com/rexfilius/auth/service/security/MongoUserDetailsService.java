@@ -1,6 +1,6 @@
-package com.piggymetrics.auth.service.security;
+package github.com.rexfilius.auth.service.security;
 
-import com.piggymetrics.auth.repository.UserRepository;
+import github.com.rexfilius.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

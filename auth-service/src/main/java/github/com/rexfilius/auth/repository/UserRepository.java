@@ -1,6 +1,6 @@
-package com.piggymetrics.auth.repository;
+package github.com.rexfilius.auth.repository;
 
-import com.piggymetrics.auth.domain.User;
+import github.com.rexfilius.auth.domain.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

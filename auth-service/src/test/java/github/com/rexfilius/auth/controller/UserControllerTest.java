@@ -1,8 +1,8 @@
-package com.piggymetrics.auth.controller;
+package github.com.rexfilius.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.piggymetrics.auth.domain.User;
-import com.piggymetrics.auth.service.UserService;
+import github.com.rexfilius.auth.domain.User;
+import github.com.rexfilius.auth.service.UserService;
 import com.sun.security.auth.UserPrincipal;
 import org.junit.Before;
 import org.junit.Test;

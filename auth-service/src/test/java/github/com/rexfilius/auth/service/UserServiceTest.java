@@ -1,7 +1,7 @@
-package com.piggymetrics.auth.service;
+package github.com.rexfilius.auth.service;
 
-import com.piggymetrics.auth.domain.User;
-import com.piggymetrics.auth.repository.UserRepository;
+import github.com.rexfilius.auth.domain.User;
+import github.com.rexfilius.auth.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

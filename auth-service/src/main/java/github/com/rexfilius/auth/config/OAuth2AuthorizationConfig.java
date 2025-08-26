@@ -1,6 +1,6 @@
-package com.piggymetrics.auth.config;
+package github.com.rexfilius.auth.config;
 
-import com.piggymetrics.auth.service.security.MongoUserDetailsService;
+import github.com.rexfilius.auth.service.security.MongoUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;

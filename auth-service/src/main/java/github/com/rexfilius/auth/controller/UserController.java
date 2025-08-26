@@ -1,7 +1,7 @@
-package com.piggymetrics.auth.controller;
+package github.com.rexfilius.auth.controller;
 
-import com.piggymetrics.auth.domain.User;
-import com.piggymetrics.auth.service.UserService;
+import github.com.rexfilius.auth.domain.User;
+import github.com.rexfilius.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
