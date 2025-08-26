@@ -27,9 +27,30 @@ services:
       retries: 5
       start_period: 15s
 
+  account-service-db:
+    image: mongo:7
+    restart: always
+    ports:
+      - "26000:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: piggy_account_admin
+      MONGO_INITDB_ROOT_PASSWORD: piggy_account_password
+      MONGODB_PASSWORD: $MONGODB_PASSWORD #???
+      MONGO_INITDB_DATABASE: accounts
+    volumes:
+      - account-service-db-data:/data/db
+      - ./docker/mongo/init/:/docker-entrypoint-initdb.d/:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh 'mongodb://$${MONGO_INITDB_ROOT_USERNAME}:$${MONGO_INITDB_ROOT_PASSWORD}@localhost:27017/admin' --eval 'db.runCommand({ ping: 1 })' --quiet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
 
 volumes:
   rabbitmq-data:
+  account-service-db-data:
 
 
 
