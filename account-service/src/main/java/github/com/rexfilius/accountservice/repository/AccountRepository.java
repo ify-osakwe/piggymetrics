@@ -1,4 +1,4 @@
-package com.piggymetrics.account.repository;
+package github.com.rexfilius.accountservice.repository;
 
 import com.piggymetrics.account.domain.Account;
 import org.springframework.data.repository.CrudRepository;

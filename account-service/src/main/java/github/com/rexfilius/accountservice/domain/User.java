@@ -1,4 +1,4 @@
-package com.piggymetrics.account.domain;
+package github.com.rexfilius.accountservice.domain;
 
 import org.hibernate.validator.constraints.Length;
 

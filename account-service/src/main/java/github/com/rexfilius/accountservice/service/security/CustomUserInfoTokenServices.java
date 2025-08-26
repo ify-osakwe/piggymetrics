@@ -1,4 +1,4 @@
-package com.piggymetrics.account.service.security;
+package github.com.rexfilius.accountservice.service.security;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

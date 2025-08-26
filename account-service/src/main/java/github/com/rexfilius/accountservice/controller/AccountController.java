@@ -1,4 +1,4 @@
-package com.piggymetrics.account.controller;
+package github.com.rexfilius.accountservice.controller;
 
 import com.piggymetrics.account.domain.Account;
 import com.piggymetrics.account.domain.User;

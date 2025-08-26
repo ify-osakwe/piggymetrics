@@ -1,4 +1,4 @@
-package com.piggymetrics.account.domain;
+package github.com.rexfilius.accountservice.domain;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;

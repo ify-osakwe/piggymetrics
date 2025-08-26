@@ -1,4 +1,4 @@
-package com.piggymetrics.account.controller;
+package github.com.rexfilius.accountservice.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

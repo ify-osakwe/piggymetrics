@@ -1,4 +1,4 @@
-package com.piggymetrics.account.config;
+package github.com.rexfilius.accountservice.config;
 
 import com.piggymetrics.account.service.security.CustomUserInfoTokenServices;
 import feign.RequestInterceptor;
@@ -16,9 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 
-/**
- * @author cdov
- */
+
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {

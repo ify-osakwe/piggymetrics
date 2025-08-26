@@ -1,4 +1,4 @@
-package com.piggymetrics.account.service;
+package github.com.rexfilius.accountservice.service;
 
 import com.piggymetrics.account.client.AuthServiceClient;
 import com.piggymetrics.account.client.StatisticsServiceClient;

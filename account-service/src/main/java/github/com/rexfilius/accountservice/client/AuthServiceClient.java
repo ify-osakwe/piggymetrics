@@ -1,4 +1,4 @@
-package com.piggymetrics.account.client;
+package github.com.rexfilius.accountservice.client;
 
 import com.piggymetrics.account.domain.User;
 import org.springframework.cloud.openfeign.FeignClient;
