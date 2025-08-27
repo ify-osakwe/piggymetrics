@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: account-service
+  config:
+    import: "configserver:http://config:8888"
+  cloud:
+    config:
+      username: user
+      password: ${CONFIG_SERVICE_PASSWORD}
+      fail-fast: true
