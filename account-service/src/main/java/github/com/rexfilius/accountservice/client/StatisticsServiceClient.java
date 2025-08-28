@@ -1,6 +1,6 @@
 package github.com.rexfilius.accountservice.client;
 
-import com.piggymetrics.account.domain.Account;
+import github.com.rexfilius.accountservice.domain.Account;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;

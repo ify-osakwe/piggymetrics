@@ -1,26 +1,73 @@
-security:
-  oauth2:
-    client:
-      clientId: account-service
-      clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
-      accessTokenUri: http://auth-service:5000/uaa/oauth/token
-      grant-type: client_credentials
-      scope: server
+app:
+  security:
+    user-info-uri: http://auth-service:5000/uaa/users/current
+    # used by CustomUserInfoOpaqueTokenIntrospector
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          my-client:
+            authorization-grant-type: client_credentials
+            client-id: account-service
+            client-secret: ${ACCOUNT_SERVICE_PASSWORD}
+            scope: server
+        provider:
+          my-auth:
+            token-uri: http://auth-service:5000/uaa/oauth/token
+
   data:
     mongodb:
-      host: account-mongodb
+      host: account-service-db
       username: user
       password: ${MONGODB_PASSWORD}
       database: piggymetrics
       port: 27017
+
+  cloud:
+    openfeign:
+      oauth2:
+        enabled: true
+        clientRegistrationId: my-client
 
 server:
   servlet:
     context-path: /accounts
   port: 6000
 
-feign:
-  hystrix:
-    enabled: true
+
+
+
+
+
+
+
+#security:
+#  oauth2:
+#    client:
+#      clientId: account-service
+#      clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
+#      accessTokenUri: http://auth-service:5000/uaa/oauth/token
+#      grant-type: client_credentials
+#      scope: server
+#    resource:
+#      user-info-uri: http://auth-service:5000/uaa/users/current
+#
+#spring:
+#  data:
+#    mongodb:
+#      host: account-mongodb
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+#      database: piggymetrics
+#      port: 27017
+#
+#server:
+#  servlet:
+#    context-path: /accounts
+#  port: 6000
+#
+#feign:
+#  hystrix:
+#    enabled: true

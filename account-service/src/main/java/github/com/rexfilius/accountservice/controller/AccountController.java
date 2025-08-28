@@ -1,13 +1,13 @@
 package github.com.rexfilius.accountservice.controller;
 
-import com.piggymetrics.account.domain.Account;
-import com.piggymetrics.account.domain.User;
-import com.piggymetrics.account.service.AccountService;
+import github.com.rexfilius.accountservice.domain.Account;
+import github.com.rexfilius.accountservice.domain.User;
+import github.com.rexfilius.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.security.Principal;
 
 @RestController

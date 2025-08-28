@@ -1,8 +1,7 @@
 package github.com.rexfilius.accountservice.domain;
 
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public class User {
 

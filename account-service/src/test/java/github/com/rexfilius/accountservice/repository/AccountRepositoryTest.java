@@ -1,10 +1,10 @@
-package com.piggymetrics.account.repository;
+package github.com.rexfilius.accountservice.repository;
 
-import com.piggymetrics.account.domain.Account;
-import com.piggymetrics.account.domain.Currency;
-import com.piggymetrics.account.domain.Item;
-import com.piggymetrics.account.domain.Saving;
-import com.piggymetrics.account.domain.TimePeriod;
+import github.com.rexfilius.accountservice.domain.Account;
+import github.com.rexfilius.accountservice.domain.Currency;
+import github.com.rexfilius.accountservice.domain.Item;
+import github.com.rexfilius.accountservice.domain.Saving;
+import github.com.rexfilius.accountservice.domain.TimePeriod;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

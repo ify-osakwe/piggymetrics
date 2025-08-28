@@ -1,9 +1,9 @@
-package com.piggymetrics.account.controller;
+package github.com.rexfilius.accountservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
-import com.piggymetrics.account.domain.*;
-import com.piggymetrics.account.service.AccountService;
+import github.com.rexfilius.accountservice.domain.*;
+import github.com.rexfilius.accountservice.service.AccountService;
 import com.sun.security.auth.UserPrincipal;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
-package com.piggymetrics.account.client;
+package github.com.rexfilius.accountservice.client;
 
-import com.piggymetrics.account.domain.Account;
+import github.com.rexfilius.accountservice.domain.Account;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

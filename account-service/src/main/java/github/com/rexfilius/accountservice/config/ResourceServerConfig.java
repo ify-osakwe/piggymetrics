@@ -1,22 +1,111 @@
 package github.com.rexfilius.accountservice.config;
 
-import com.piggymetrics.account.service.security.CustomUserInfoTokenServices;
-import feign.RequestInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+import github.com.rexfilius.accountservice.service.security.CustomUserInfoOpaqueTokenIntrospector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.net.URI;
+
+//@ConfigurationProperties(prefix = "app.security")
+//record SecurityProps(URI userInfoUri) {}
+
+//@EnableConfigurationProperties(SecurityProps.class)
+@Configuration
+@EnableMethodSecurity
+public class ResourceServerConfig {
+    /**
+     * Where your auth server exposes user info (what your old TokenServices used).
+     */
+    @Value("${app.security.user-info-uri}")
+    private URI userInfoUri;
+
+    /**
+     * Introspector that calls your UserInfo endpoint with the bearer token.
+     */
+//    @Bean
+//    OpaqueTokenIntrospector opaqueTokenIntrospector(RestClient.Builder restClientBuilder,
+//                                                    SecurityProps props) {
+//        return new CustomUserInfoOpaqueTokenIntrospector(restClientBuilder.build(), props.userInfoUri());
+//    }
+    @Bean
+    OpaqueTokenIntrospector opaqueTokenIntrospector(RestClient.Builder restClientBuilder) {
+        // Your new implementation that replaces CustomUserInfoTokenServices
+        return new CustomUserInfoOpaqueTokenIntrospector(restClientBuilder.build(), userInfoUri);
+    }
+
+    /**
+     * The HTTP security filter chain (replaces ResourceServerConfigurerAdapter).
+     */
+    @Bean
+    SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            OpaqueTokenIntrospector introspector
+    ) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/demo").permitAll()
+                        .anyRequest().authenticated()
+                )
+                // Resource Server with opaque tokens using our custom introspector
+                .oauth2ResourceServer(rs -> rs.opaqueToken(ot -> ot.introspector(introspector)));
+
+        return http.build();
+    }
+
+    // ---------- OPTIONAL: Outbound OAuth2 (WebClient) + Feign integration ----------
+
+    /**
+     * A manager that obtains/refreshes access tokens for your registered OAuth2 clients.
+     * Useful for WebClient and also used by Spring Cloud OpenFeign's OAuth2 support.
+     */
+    @Bean
+    OAuth2AuthorizedClientManager authorizedClientManager(
+            ClientRegistrationRepository registrations,
+            OAuth2AuthorizedClientService authorizedClientService) {
+
+        var provider = OAuth2AuthorizedClientProviderBuilder.builder()
+                .clientCredentials()
+                .authorizationCode()
+                .refreshToken()
+                .build();
+
+        var manager = new DefaultOAuth2AuthorizedClientManager(
+                registrations, (OAuth2AuthorizedClientRepository) authorizedClientService);
+        manager.setAuthorizedClientProvider(provider);
+        return manager;
+    }
+
+    /**
+     * If you previously injected an OAuth2RestTemplate, use WebClient instead.
+     * Set a default client registration ID that uses the client_credentials flow.
+     */
+    @Bean
+    WebClient oauth2WebClient(OAuth2AuthorizedClientManager manager) {
+        var oauth2 = new ServletOAuth2AuthorizedClientExchangeFilterFunction(manager);
+        oauth2.setDefaultClientRegistrationId("my-client"); // match your application.yml
+        return WebClient.builder().apply(oauth2.oauth2Configuration()).build();
+    }
 
 
+}
+
+/*
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
@@ -56,3 +145,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .anyRequest().authenticated();
     }
 }
+*/

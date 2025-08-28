@@ -1,4 +1,4 @@
-package com.piggymetrics.account;
+package github.com.rexfilius.accountservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

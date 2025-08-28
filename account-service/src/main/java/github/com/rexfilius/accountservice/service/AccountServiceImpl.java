@@ -1,12 +1,12 @@
 package github.com.rexfilius.accountservice.service;
 
-import com.piggymetrics.account.client.AuthServiceClient;
-import com.piggymetrics.account.client.StatisticsServiceClient;
-import com.piggymetrics.account.domain.Account;
-import com.piggymetrics.account.domain.Currency;
-import com.piggymetrics.account.domain.Saving;
-import com.piggymetrics.account.domain.User;
-import com.piggymetrics.account.repository.AccountRepository;
+import github.com.rexfilius.accountservice.client.AuthServiceClient;
+import github.com.rexfilius.accountservice.client.StatisticsServiceClient;
+import github.com.rexfilius.accountservice.domain.Account;
+import github.com.rexfilius.accountservice.domain.Currency;
+import github.com.rexfilius.accountservice.domain.Saving;
+import github.com.rexfilius.accountservice.domain.User;
+import github.com.rexfilius.accountservice.repository.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
 	 */
 	@Override
 	public Account findByName(String accountName) {
-		Assert.hasLength(accountName);
+		Assert.hasLength(accountName, "accountName cannot be empty");
 		return repository.findByName(accountName);
 	}
 

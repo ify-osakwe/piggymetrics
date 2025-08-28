@@ -1,9 +1,9 @@
-package com.piggymetrics.account.service;
+package github.com.rexfilius.accountservice.service;
 
-import com.piggymetrics.account.client.AuthServiceClient;
-import com.piggymetrics.account.client.StatisticsServiceClient;
-import com.piggymetrics.account.domain.*;
-import com.piggymetrics.account.repository.AccountRepository;
+import github.com.rexfilius.accountservice.client.AuthServiceClient;
+import github.com.rexfilius.accountservice.client.StatisticsServiceClient;
+import github.com.rexfilius.accountservice.domain.*;
+import github.com.rexfilius.accountservice.repository.AccountRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

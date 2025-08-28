@@ -1,6 +1,6 @@
 package github.com.rexfilius.accountservice.repository;
 
-import com.piggymetrics.account.domain.Account;
+import github.com.rexfilius.accountservice.domain.Account;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
