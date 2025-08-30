@@ -30,13 +30,21 @@ spring:
       oauth2:
         enabled: true
         clientRegistrationId: my-client
+      # If you want Feign methods wrapped with circuit breakers, uncomment:
+      # circuitbreaker:
+      #   enabled: true
 
 server:
   servlet:
     context-path: /accounts
   port: 6000
 
-
+resilience4j:
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 10s
+        cancelRunningFuture: true
 
 
 

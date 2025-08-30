@@ -2,13 +2,21 @@ logging:
   level:
     org.springframework.security: INFO
 
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 10000
+# remove Hystrix, replace with resilience4j
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 10000
+
+resilience4j:
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 10s
+        cancelRunningFuture: true
 
 eureka:
   instance:

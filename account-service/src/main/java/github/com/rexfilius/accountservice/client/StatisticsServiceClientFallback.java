@@ -1,6 +1,6 @@
 package github.com.rexfilius.accountservice.client;
 
-import com.piggymetrics.account.domain.Account;
+import github.com.rexfilius.accountservice.domain.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
