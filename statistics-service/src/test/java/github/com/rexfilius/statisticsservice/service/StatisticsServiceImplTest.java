@@ -39,7 +39,7 @@ public class StatisticsServiceImplTest {
 	private StatisticsServiceImpl statisticsService;
 
 	@Mock
-	private ExchangeRatesServiceImpl ratesService;
+	private ExchangeRatesService ratesService;
 
 	@Mock
 	private DataPointRepository repository;

@@ -1,27 +1,53 @@
 package github.com.rexfilius.statisticsservice.service;
 
+import com.google.common.collect.ImmutableMap;
+import github.com.rexfilius.statisticsservice.client.ExchangeRatesClient;
 import github.com.rexfilius.statisticsservice.domain.Currency;
+import github.com.rexfilius.statisticsservice.domain.ExchangeRatesContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.Map;
 
-public interface ExchangeRatesService {
+@Service
+public class ExchangeRatesService {
 
-	/**
-	 * Requests today's foreign exchange rates from a provider
-	 * or reuses values from the last request (if they are still relevant)
-	 *
-	 * @return current date rates
-	 */
-	Map<Currency, BigDecimal> getCurrentRates();
+	private static final Logger log = LoggerFactory.getLogger(ExchangeRatesService.class);
 
-	/**
-	 * Converts given amount to specified currency
-	 *
-	 * @param from {@link Currency}
-	 * @param to {@link Currency}
-	 * @param amount to be converted
-	 * @return converted amount
-	 */
-	BigDecimal convert(Currency from, Currency to, BigDecimal amount);
+	private ExchangeRatesContainer container;
+
+	private final ExchangeRatesClient client;
+
+	public ExchangeRatesService(ExchangeRatesClient client) {
+		this.client = client;
+	}
+	
+	public Map<Currency, BigDecimal> getCurrentRates() {
+		if (container == null || !container.getDate().equals(LocalDate.now())) {
+			container = client.getRates(Currency.getBase());
+			log.info("exchange rates has been updated: {}", container);
+		}
+
+		return ImmutableMap.of(
+				Currency.EUR, container.getRates().get(Currency.EUR.name()),
+				Currency.RUB, container.getRates().get(Currency.RUB.name()),
+				Currency.USD, BigDecimal.ONE
+		);
+	}
+
+	
+	public BigDecimal convert(Currency from, Currency to, BigDecimal amount) {
+
+		Assert.notNull(amount, "Amount must not be null");
+
+		Map<Currency, BigDecimal> rates = getCurrentRates();
+		BigDecimal ratio = rates.get(to).divide(rates.get(from), 4, RoundingMode.HALF_UP);
+
+		return amount.multiply(ratio);
+	}
 }

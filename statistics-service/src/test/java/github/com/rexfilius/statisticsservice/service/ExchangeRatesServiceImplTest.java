@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class ExchangeRatesServiceImplTest {
 
 	@InjectMocks
-	private ExchangeRatesServiceImpl ratesService;
+	private ExchangeRatesService ratesService;
 
 	@Mock
 	private ExchangeRatesClient client;
