@@ -69,11 +69,14 @@ services:
     ports:
       - "27000:27017"
     environment:
-#      MONGO_INITDB_ROOT_USERNAME: piggy_statistics_admin
-#      MONGO_INITDB_ROOT_PASSWORD: piggy_statistics_password
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
+      MONGO_INITDB_ROOT_USERNAME: piggy_statistics_admin
+      MONGO_INITDB_ROOT_PASSWORD: piggy_statistics_password
+      MONGO_INITDB_DATABASE: statistics
+      MONGODB_APP_USER: app_user
+      MONGODB_APP_PASSWORD: $MONGODB_PASSWORD
     volumes:
       - statistics-service-db-data:/data/db
+      - ./.docker/mongo/statistics-init/:/docker-entrypoint-initdb.d/:ro
     healthcheck:
       test: ["CMD-SHELL", "timeout 3 bash -lc 'echo > /dev/tcp/127.0.0.1/27017'"]
       interval: 10s

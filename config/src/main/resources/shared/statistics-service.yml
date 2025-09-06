@@ -32,6 +32,7 @@ spring:
             token-uri: http://auth-service:5000/uaa/oauth/token
   data:
     mongodb:
+      uri: mongodb://app_user:${MONGODB_PASSWORD}@statistics-service-db:27017/statistics?authSource=statistics
 
 server:
   servlet:
