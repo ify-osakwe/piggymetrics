@@ -62,10 +62,29 @@ services:
       timeout: 5s
       retries: 10
       start_period: 60s
+  
+  statistics-service-db:
+    image: mongo:7
+    restart: always
+    ports:
+      - "27000:27017"
+    environment:
+#      MONGO_INITDB_ROOT_USERNAME: piggy_statistics_admin
+#      MONGO_INITDB_ROOT_PASSWORD: piggy_statistics_password
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    volumes:
+      - statistics-service-db-data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 3 bash -lc 'echo > /dev/tcp/127.0.0.1/27017'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
 
 volumes:
   rabbitmq-data:
   account-service-db-data:
+  statistics-service-db-data:
 
 
 
