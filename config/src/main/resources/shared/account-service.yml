@@ -1,8 +1,3 @@
-app:
-  security:
-    user-info-uri: http://auth-service:5000/uaa/users/current
-    # used by CustomUserInfoOpaqueTokenIntrospector
-
 spring:
   security:
     oauth2:

@@ -1,3 +1,8 @@
+app:
+  security:
+    user-info-uri: http://auth-service:5000/uaa/users/current
+    # used by CustomUserInfoOpaqueTokenIntrospector
+
 logging:
   level:
     org.springframework.security: INFO
