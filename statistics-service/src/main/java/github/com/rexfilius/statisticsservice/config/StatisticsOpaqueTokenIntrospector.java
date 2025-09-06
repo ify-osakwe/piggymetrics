@@ -1,4 +1,4 @@
-package github.com.rexfilius.statisticsservice.service.security;
+package github.com.rexfilius.statisticsservice.config;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.GrantedAuthority;

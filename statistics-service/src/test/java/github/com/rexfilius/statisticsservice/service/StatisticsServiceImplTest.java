@@ -2,14 +2,15 @@ package github.com.rexfilius.statisticsservice.service;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import github.com.rexfilius.statisticsservice.domain.Account;
-import github.com.rexfilius.statisticsservice.domain.Currency;
-import github.com.rexfilius.statisticsservice.domain.Item;
-import github.com.rexfilius.statisticsservice.domain.Saving;
-import github.com.rexfilius.statisticsservice.domain.TimePeriod;
-import github.com.rexfilius.statisticsservice.domain.timeseries.DataPoint;
-import github.com.rexfilius.statisticsservice.domain.timeseries.ItemMetric;
-import github.com.rexfilius.statisticsservice.domain.timeseries.StatisticMetric;
+
+import github.com.rexfilius.statisticsservice.model.Account;
+import github.com.rexfilius.statisticsservice.model.Currency;
+import github.com.rexfilius.statisticsservice.model.Item;
+import github.com.rexfilius.statisticsservice.model.Saving;
+import github.com.rexfilius.statisticsservice.model.TimePeriod;
+import github.com.rexfilius.statisticsservice.model.timeseries.DataPoint;
+import github.com.rexfilius.statisticsservice.model.timeseries.ItemMetric;
+import github.com.rexfilius.statisticsservice.model.timeseries.StatisticMetric;
 import github.com.rexfilius.statisticsservice.repository.DataPointRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class StatisticsServiceImplTest {
 
 	@InjectMocks
-	private StatisticsServiceImpl statisticsService;
+	private StatisticsService statisticsService;
 
 	@Mock
 	private ExchangeRatesService ratesService;

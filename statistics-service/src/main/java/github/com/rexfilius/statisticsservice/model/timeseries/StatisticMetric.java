@@ -1,4 +1,4 @@
-package github.com.rexfilius.statisticsservice.domain.timeseries;
+package github.com.rexfilius.statisticsservice.model.timeseries;
 
 public enum StatisticMetric {
 

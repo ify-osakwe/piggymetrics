@@ -1,9 +1,10 @@
 package github.com.rexfilius.statisticsservice.repository;
 
-import github.com.rexfilius.statisticsservice.domain.timeseries.DataPoint;
-import github.com.rexfilius.statisticsservice.domain.timeseries.DataPointId;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import github.com.rexfilius.statisticsservice.model.timeseries.DataPoint;
+import github.com.rexfilius.statisticsservice.model.timeseries.DataPointId;
 
 import java.util.List;
 

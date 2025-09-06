@@ -1,10 +1,10 @@
-package github.com.rexfilius.statisticsservice.domain.timeseries;
-
-import github.com.rexfilius.statisticsservice.domain.Currency;
-import github.com.rexfilius.statisticsservice.domain.TimePeriod;
-import github.com.rexfilius.statisticsservice.domain.Item;
+package github.com.rexfilius.statisticsservice.model.timeseries;
 
 import java.math.BigDecimal;
+
+import github.com.rexfilius.statisticsservice.model.Currency;
+import github.com.rexfilius.statisticsservice.model.Item;
+import github.com.rexfilius.statisticsservice.model.TimePeriod;
 
 /**
  * Represents normalized {@link Item} object

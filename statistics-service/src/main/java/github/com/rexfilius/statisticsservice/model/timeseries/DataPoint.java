@@ -1,8 +1,9 @@
-package github.com.rexfilius.statisticsservice.domain.timeseries;
+package github.com.rexfilius.statisticsservice.model.timeseries;
 
-import github.com.rexfilius.statisticsservice.domain.Currency;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import github.com.rexfilius.statisticsservice.model.Currency;
 
 import java.math.BigDecimal;
 import java.util.Map;

@@ -1,6 +1,5 @@
 package github.com.rexfilius.statisticsservice.config;
 
-import github.com.rexfilius.statisticsservice.service.security.StatisticsOpaqueTokenIntrospector;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

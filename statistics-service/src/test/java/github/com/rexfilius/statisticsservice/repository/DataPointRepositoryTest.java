@@ -2,10 +2,12 @@ package github.com.rexfilius.statisticsservice.repository;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
-import github.com.rexfilius.statisticsservice.domain.timeseries.DataPoint;
-import github.com.rexfilius.statisticsservice.domain.timeseries.DataPointId;
-import github.com.rexfilius.statisticsservice.domain.timeseries.ItemMetric;
-import github.com.rexfilius.statisticsservice.domain.timeseries.StatisticMetric;
+
+import github.com.rexfilius.statisticsservice.model.timeseries.DataPoint;
+import github.com.rexfilius.statisticsservice.model.timeseries.DataPointId;
+import github.com.rexfilius.statisticsservice.model.timeseries.ItemMetric;
+import github.com.rexfilius.statisticsservice.model.timeseries.StatisticMetric;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

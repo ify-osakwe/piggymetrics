@@ -1,4 +1,4 @@
-package github.com.rexfilius.statisticsservice.domain;
+package github.com.rexfilius.statisticsservice.model;
 
 public enum Currency {
 

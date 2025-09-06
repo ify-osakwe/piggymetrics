@@ -2,13 +2,14 @@ package github.com.rexfilius.statisticsservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
-import github.com.rexfilius.statisticsservice.domain.Account;
-import github.com.rexfilius.statisticsservice.domain.Currency;
-import github.com.rexfilius.statisticsservice.domain.Item;
-import github.com.rexfilius.statisticsservice.domain.Saving;
-import github.com.rexfilius.statisticsservice.domain.TimePeriod;
-import github.com.rexfilius.statisticsservice.domain.timeseries.DataPoint;
-import github.com.rexfilius.statisticsservice.domain.timeseries.DataPointId;
+
+import github.com.rexfilius.statisticsservice.model.Account;
+import github.com.rexfilius.statisticsservice.model.Currency;
+import github.com.rexfilius.statisticsservice.model.Item;
+import github.com.rexfilius.statisticsservice.model.Saving;
+import github.com.rexfilius.statisticsservice.model.TimePeriod;
+import github.com.rexfilius.statisticsservice.model.timeseries.DataPoint;
+import github.com.rexfilius.statisticsservice.model.timeseries.DataPointId;
 import github.com.rexfilius.statisticsservice.service.StatisticsService;
 import com.sun.security.auth.UserPrincipal;
 import org.junit.Before;

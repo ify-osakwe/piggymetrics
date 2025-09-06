@@ -1,7 +1,9 @@
 package github.com.rexfilius.statisticsservice.repository.converter;
 
 import com.mongodb.DBObject;
-import github.com.rexfilius.statisticsservice.domain.timeseries.DataPointId;
+
+import github.com.rexfilius.statisticsservice.model.timeseries.DataPointId;
+
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

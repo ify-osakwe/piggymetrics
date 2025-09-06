@@ -1,8 +1,9 @@
 package github.com.rexfilius.statisticsservice.client;
 
-import github.com.rexfilius.statisticsservice.domain.Currency;
-import github.com.rexfilius.statisticsservice.domain.ExchangeRatesContainer;
 import org.springframework.stereotype.Component;
+
+import github.com.rexfilius.statisticsservice.model.Currency;
+import github.com.rexfilius.statisticsservice.model.ExchangeRatesContainer;
 
 import java.util.Collections;
 

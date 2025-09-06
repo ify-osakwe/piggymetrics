@@ -2,8 +2,9 @@ package github.com.rexfilius.statisticsservice.service;
 
 import com.google.common.collect.ImmutableMap;
 import github.com.rexfilius.statisticsservice.client.ExchangeRatesClient;
-import github.com.rexfilius.statisticsservice.domain.Currency;
-import github.com.rexfilius.statisticsservice.domain.ExchangeRatesContainer;
+import github.com.rexfilius.statisticsservice.model.Currency;
+import github.com.rexfilius.statisticsservice.model.ExchangeRatesContainer;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

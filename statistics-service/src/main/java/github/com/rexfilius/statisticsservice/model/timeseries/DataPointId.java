@@ -1,4 +1,4 @@
-package github.com.rexfilius.statisticsservice.domain.timeseries;
+package github.com.rexfilius.statisticsservice.model.timeseries;
 
 import java.io.Serializable;
 import java.util.Date;
