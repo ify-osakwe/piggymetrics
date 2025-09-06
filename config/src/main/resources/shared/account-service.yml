@@ -12,19 +12,14 @@ spring:
             authorization-grant-type: client_credentials
             client-id: account-service
             client-secret: ${ACCOUNT_SERVICE_PASSWORD}
+            provider: my-auth
             scope: server
         provider:
           my-auth:
             token-uri: http://auth-service:5000/uaa/oauth/token
-
   data:
     mongodb:
-      host: account-service-db
-      username: user
-      password: ${MONGODB_PASSWORD}
-      database: piggymetrics
-      port: 27017
-
+      uri: mongodb://app_user:${MONGODB_PASSWORD}@account-service-db:27017/accounts?authSource=accounts
   cloud:
     openfeign:
       oauth2:

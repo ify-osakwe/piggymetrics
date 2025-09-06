@@ -27,6 +27,21 @@ services:
       retries: 5
       start_period: 15s
 
+  account-service:
+    build:
+      context: ./account-service
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    ports:
+      - "6000:6000"
+    depends_on:
+      config:
+        condition: service_started
+      account-service-db:
+        condition: service_healthy
+
   account-service-db:
     image: mongo:7
     restart: always
@@ -35,18 +50,18 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: piggy_account_admin
       MONGO_INITDB_ROOT_PASSWORD: piggy_account_password
-      MONGODB_PASSWORD: $MONGODB_PASSWORD #???
       MONGO_INITDB_DATABASE: accounts
+      MONGODB_APP_USER: app_user
+      MONGODB_APP_PASSWORD: $MONGODB_PASSWORD
     volumes:
       - account-service-db-data:/data/db
-      - ./docker/mongo/init/:/docker-entrypoint-initdb.d/:ro
+      - ./.docker/mongo/init/:/docker-entrypoint-initdb.d/:ro
     healthcheck:
-      test: ["CMD-SHELL", "mongosh 'mongodb://$${MONGO_INITDB_ROOT_USERNAME}:$${MONGO_INITDB_ROOT_PASSWORD}@localhost:27017/admin' --eval 'db.runCommand({ ping: 1 })' --quiet"]
+      test: ["CMD-SHELL", "timeout 3 bash -lc 'echo > /dev/tcp/127.0.0.1/27017'"]
       interval: 10s
       timeout: 5s
-      retries: 5
-      start_period: 20s
-
+      retries: 10
+      start_period: 60s
 
 volumes:
   rabbitmq-data:

@@ -11,6 +11,42 @@ import jakarta.validation.Valid;
 import java.security.Principal;
 
 @RestController
+public  class AccountController {
+
+    private final AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    @GetMapping("/{name}")
+    @PreAuthorize("hasAuthority('SCOPE_server') || #name == 'demo'")
+    public Account getAccountByName(@PathVariable("name") String name) {
+        return accountService.findByName(name);
+    }
+
+    @GetMapping("/current")
+    public Account getCurrentAccount(Principal principal) {
+        return accountService.findByName(principal.getName());
+    }
+
+    @PutMapping("/current")
+    public void saveCurrentAccount(
+            Principal principal,
+            @Valid @RequestBody Account account
+    ) {
+        accountService.saveChanges(principal.getName(), account);
+    }
+
+    @PostMapping
+    public Account createNewAccount(@Valid @RequestBody User user) {
+        return accountService.create(user);
+    }
+
+}
+
+/*
+@RestController
 public class AccountController {
 
 	@Autowired
@@ -37,3 +73,4 @@ public class AccountController {
 		return accountService.create(user);
 	}
 }
+*/
