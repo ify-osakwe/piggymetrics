@@ -27,7 +27,7 @@ public class User implements UserDetails {
 
 	@Override
 	public List<GrantedAuthority> getAuthorities() {
-		return null;
+		return List.of();
 	}
 
 	public void setUsername(String username) {
