@@ -2,7 +2,7 @@ package github.com.rexfilius.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import github.com.rexfilius.auth.domain.User;
-import github.com.rexfilius.auth.service.UserService;
+import github.com.rexfilius.auth.service.UserServiceImpl;
 import com.sun.security.auth.UserPrincipal;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class UserControllerTest {
 	private UserController accountController;
 
 	@Mock
-	private UserService userService;
+	private UserServiceImpl userService;
 
 	private MockMvc mockMvc;
 

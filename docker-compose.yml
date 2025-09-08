@@ -26,6 +26,27 @@ services:
       timeout: 5s
       retries: 5
       start_period: 15s
+  
+  auth-service-db:
+    image: mongo:7
+    restart: always
+    ports:
+      - "25000:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: piggy_auth_admin
+      MONGO_INITDB_ROOT_PASSWORD: piggy_auth_password
+      MONGO_INITDB_DATABASE: auth
+      MONGODB_APP_USER: app_user
+      MONGODB_APP_PASSWORD: $MONGODB_PASSWORD
+    volumes:
+      - auth-service-db-data:/data/db
+      - ./.docker/mongo/auth-init/:/docker-entrypoint-initdb.d/:ro
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 3 bash -lc 'echo > /dev/tcp/127.0.0.1/27017'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
 
   account-service:
     build:
@@ -140,6 +161,7 @@ volumes:
   account-service-db-data:
   statistics-service-db-data:
   notification-service-db-data:
+  auth-service-db-data:
 
 
 

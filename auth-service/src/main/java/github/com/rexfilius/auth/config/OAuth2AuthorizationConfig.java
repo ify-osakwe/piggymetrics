@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -36,13 +37,22 @@ public class OAuth2AuthorizationConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+        var authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
+        var endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
+        http
+            .securityMatcher(endpointsMatcher)
+            .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+            .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+            .with(authorizationServerConfigurer, Customizer.withDefaults());
+
         return http.formLogin(Customizer.withDefaults()).build();
     }
 
     @Bean
     public RegisteredClientRepository registeredClientRepository(Environment env, PasswordEncoder passwordEncoder) {
         // Public browser client: migrate from deprecated password grant to authorization_code + PKCE
+        // Spring Security’s default redirect pattern for OAuth2 Login clients:
+        // {baseUrl}/login/oauth2/code/{registrationId}.
         RegisteredClient browserClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("browser")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE) // public client
