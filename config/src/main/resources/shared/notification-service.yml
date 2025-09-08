@@ -1,3 +1,7 @@
+# app.security.feign-client-registration
+# spring.security.oauth2.client.registration.my-client 
+# spring.security.oauth2.resourceserver.opaque-token.introspection-uri,
+
 security:
   oauth2:
     client:

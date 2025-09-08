@@ -5,7 +5,6 @@ import github.com.rexfilius.notification.domain.NotificationType;
 import github.com.rexfilius.notification.domain.Recipient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +12,22 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class NotificationServiceImpl implements NotificationService {
+public class NotificationServiceImpl  {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	private AccountServiceClient client;
+	private final AccountServiceClient client;
+	private final RecipientServiceImpl recipientService;
+	private final EmailServiceImpl emailService;
 
-	@Autowired
-	private RecipientService recipientService;
+	public NotificationServiceImpl(AccountServiceClient client,
+									RecipientServiceImpl recipientService,
+									EmailServiceImpl emailService) {
+		this.client = client;
+		this.recipientService = recipientService;
+		this.emailService = emailService;
+	}
 
-	@Autowired
-	private EmailService emailService;
-
-	@Override
 	@Scheduled(cron = "${backup.cron}")
 	public void sendBackupNotifications() {
 
@@ -46,7 +47,6 @@ public class NotificationServiceImpl implements NotificationService {
 		}));
 	}
 
-	@Override
 	@Scheduled(cron = "${remind.cron}")
 	public void sendRemindNotifications() {
 

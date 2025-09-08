@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.io.IOException;
 
 import static org.mockito.Mockito.*;
@@ -21,13 +21,13 @@ public class NotificationServiceImplTest {
 	private NotificationServiceImpl notificationService;
 
 	@Mock
-	private RecipientService recipientService;
+	private RecipientServiceImpl recipientService;
 
 	@Mock
 	private AccountServiceClient client;
 
 	@Mock
-	private EmailService emailService;
+	private EmailServiceImpl emailService;
 
 	@Before
 	public void setup() {

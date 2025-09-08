@@ -4,7 +4,6 @@ import github.com.rexfilius.notification.domain.NotificationType;
 import github.com.rexfilius.notification.domain.Recipient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ByteArrayResource;
@@ -13,24 +12,26 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.text.MessageFormat;
 
 @Service
 @RefreshScope
-public class EmailServiceImpl implements EmailService {
+public class EmailServiceImpl  {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	private JavaMailSender mailSender;
+	private final JavaMailSender mailSender;
 
-	@Autowired
-	private Environment env;
+	private final Environment env;
 
-	@Override
+	public EmailServiceImpl(JavaMailSender mailSender, Environment env) {
+		this.mailSender = mailSender;
+		this.env = env;
+	}
+
 	public void send(NotificationType type, Recipient recipient, String attachment) throws MessagingException, IOException {
 
 		final String subject = env.getProperty(type.getSubject());

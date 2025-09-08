@@ -1,30 +1,32 @@
 package github.com.rexfilius.notification.controller;
 
 import github.com.rexfilius.notification.domain.Recipient;
-import github.com.rexfilius.notification.service.RecipientService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import github.com.rexfilius.notification.service.RecipientServiceImpl;
 
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.security.Principal;
 
 @RestController
 @RequestMapping("/recipients")
 public class RecipientController {
 
-	@Autowired
-	private RecipientService recipientService;
+	private final RecipientServiceImpl recipientService;
 
-	@RequestMapping(path = "/current", method = RequestMethod.GET)
+	public RecipientController(RecipientServiceImpl recipientService) {
+		this.recipientService = recipientService;
+	}
+
+	@GetMapping("/current")
 	public Object getCurrentNotificationsSettings(Principal principal) {
 		return recipientService.findByAccountName(principal.getName());
 	}
 
-	@RequestMapping(path = "/current", method = RequestMethod.PUT)
-	public Object saveCurrentNotificationsSettings(Principal principal, @Valid @RequestBody Recipient recipient) {
+	@PutMapping("/current")
+	public Object saveCurrentNotificationsSettings(
+		Principal principal, 
+		@Valid @RequestBody Recipient recipient
+	) {
 		return recipientService.save(principal.getName(), recipient);
 	}
 }

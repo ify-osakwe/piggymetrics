@@ -13,23 +13,19 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class RecipientServiceImpl implements RecipientService {
+public class RecipientServiceImpl  {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private RecipientRepository repository;
 
-	@Override
+	
 	public Recipient findByAccountName(String accountName) {
-		Assert.hasLength(accountName);
+		Assert.hasLength(accountName, "Length must be ...");
 		return repository.findByAccountName(accountName);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public Recipient save(String accountName, Recipient recipient) {
 
 		recipient.setAccountName(accountName);
@@ -47,10 +43,6 @@ public class RecipientServiceImpl implements RecipientService {
 		return recipient;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public List<Recipient> findReadyToNotify(NotificationType type) {
 		switch (type) {
 			case BACKUP:
@@ -62,10 +54,6 @@ public class RecipientServiceImpl implements RecipientService {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public void markNotified(NotificationType type, Recipient recipient) {
 		recipient.getScheduledNotifications().get(type).setLastNotified(new Date());
 		repository.save(recipient);

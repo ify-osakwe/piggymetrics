@@ -6,7 +6,8 @@ import github.com.rexfilius.notification.domain.Frequency;
 import github.com.rexfilius.notification.domain.NotificationSettings;
 import github.com.rexfilius.notification.domain.NotificationType;
 import github.com.rexfilius.notification.domain.Recipient;
-import github.com.rexfilius.notification.service.RecipientService;
+import github.com.rexfilius.notification.service.RecipientServiceImpl;
+
 import com.sun.security.auth.UserPrincipal;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class RecipientControllerTest {
 	private RecipientController recipientController;
 
 	@Mock
-	private RecipientService recipientService;
+	private RecipientServiceImpl recipientService;
 
 	private MockMvc mockMvc;
 
