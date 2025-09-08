@@ -68,14 +68,14 @@ services:
       context: ./statistics-service
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
+      STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
     ports:
       - "7050:7050"
     depends_on:
       config:
         condition: service_started
-      account-service-db:
+      statistics-service-db:
         condition: service_healthy
   
   statistics-service-db:
@@ -98,6 +98,21 @@ services:
       timeout: 5s
       retries: 10
       start_period: 60s
+  
+  notification-service:
+    build:
+      context: ./notification-service
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+      NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
+    ports:
+      - "8070:8070"
+    depends_on:
+      config:
+        condition: service_started
+      notification-service-db:
+        condition: service_healthy
   
   notification-service-db:
     image: mongo:7
@@ -130,25 +145,6 @@ volumes:
 
 #version: '2.1'
 #services:
-#  rabbitmq:
-#    image: rabbitmq:3-management
-#    restart: always
-#    ports:
-#      - 15672:15672
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  config:
-#    environment:
-#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-#    image: sqshq/piggymetrics-config
-#    restart: always
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
 #
 #  registry:
 #    environment:
@@ -202,82 +198,6 @@ volumes:
 #      MONGODB_PASSWORD: $MONGODB_PASSWORD
 #    image: sqshq/piggymetrics-mongodb
 #    restart: always
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  account-service:
-#    environment:
-#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-#      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
-#    image: sqshq/piggymetrics-account-service
-#    restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  account-mongodb:
-#    environment:
-#      INIT_DUMP: account-service-dump.js
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
-#    image: sqshq/piggymetrics-mongodb
-#    restart: always
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  statistics-service:
-#    environment:
-#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
-#      STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
-#    image: sqshq/piggymetrics-statistics-service
-#    restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  statistics-mongodb:
-#    environment:
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
-#    image: sqshq/piggymetrics-mongodb
-#    restart: always
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  notification-service:
-#    environment:
-#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
-#      NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
-#    image: sqshq/piggymetrics-notification-service
-#    restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  notification-mongodb:
-#    image: sqshq/piggymetrics-mongodb
-#    restart: always
-#    environment:
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
 #    logging:
 #      options:
 #        max-size: "10m"
