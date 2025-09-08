@@ -1,23 +1,19 @@
 package github.com.rexfilius.notification.config;
 
-import feign.RequestInterceptor;
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 
 /**
  * Modernized security configuration for Notification Service (Java 21 + Spring Boot 3.5).
@@ -41,18 +37,29 @@ public class NotificationServerConfig {
 
     // Registration id to use for outbound OAuth2 client_credentials
     // Ensure this exists under spring.security.oauth2.client.registration.<id>
-    @Value("${app.security.feign-client-registration:my-client}")
-    private String feignClientRegistrationId;
+    // @Value("${app.security.feign-client-registration:my-client}")
+    // private String feignClientRegistrationId;
+
+    @Value("${app.security.user-info-uri}")
+    private URI userInfoUri;
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    OpaqueTokenIntrospector opaqueTokenIntrospector(RestClient.Builder restBuilder) {
+        return new NotificationOpaqueTokenIntrospector(restBuilder.build(), userInfoUri);
+    }
+
+    @Bean
+    SecurityFilterChain securityFilterChain(
+        HttpSecurity http,
+        OpaqueTokenIntrospector introspector
+    ) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/demo").permitAll()
                 .anyRequest().authenticated()
             )
-            // Configure as opaque tokens; switch to .jwt() if using JWT resource server
-            .oauth2ResourceServer(oauth2 -> oauth2.opaqueToken());
+            .oauth2ResourceServer(rs -> 
+                rs.opaqueToken(ot-> ot.introspector(introspector)));
 
         return http.build();
     }
@@ -74,17 +81,17 @@ public class NotificationServerConfig {
         return manager;
     }
 
-    @Bean
+    /*@Bean
     WebClient oauth2WebClient(OAuth2AuthorizedClientManager manager) {
         var oauth2 = new ServletOAuth2AuthorizedClientExchangeFilterFunction(manager);
         oauth2.setDefaultClientRegistrationId(feignClientRegistrationId);
         return WebClient.builder().apply(oauth2.oauth2Configuration()).build();
-    }
+    }*/
 
     /**
      * Feign interceptor that obtains a client_credentials token and sets Authorization header.
      */
-    @Bean
+    /*@Bean
     public RequestInterceptor oauth2FeignRequestInterceptor(OAuth2AuthorizedClientManager manager) {
         return requestTemplate -> {
             var authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(feignClientRegistrationId)
@@ -101,7 +108,7 @@ public class NotificationServerConfig {
                         "Bearer " + client.getAccessToken().getTokenValue());
             }
         };
-    }
+    }*/
 }
 
 /*

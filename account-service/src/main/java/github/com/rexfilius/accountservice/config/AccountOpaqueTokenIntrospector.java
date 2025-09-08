@@ -1,4 +1,4 @@
-package github.com.rexfilius.accountservice.service.security;
+package github.com.rexfilius.accountservice.config;
 
 
 import org.springframework.http.HttpHeaders;
@@ -20,18 +20,18 @@ import java.util.stream.Collectors;
  * Calls a UserInfo endpoint with the bearer token, then builds an OAuth2 principal.
  * Spring Security 6 replacement for the legacy ResourceServerTokenServices approach.
  */
-public class CustomUserInfoOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
+public class AccountOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
     private static final List<String> PRINCIPAL_KEYS =
             List.of("user","username","userid","user_id","login","id","name");
     private final RestClient restClient;
     private final URI userInfoUri;
 
-    public CustomUserInfoOpaqueTokenIntrospector(String userInfoEndpointUrl) {
+    public AccountOpaqueTokenIntrospector(String userInfoEndpointUrl) {
         this(RestClient.builder().build(), URI.create(userInfoEndpointUrl));
     }
 
-    public CustomUserInfoOpaqueTokenIntrospector(RestClient restClient, URI userInfoUri) {
+    public AccountOpaqueTokenIntrospector(RestClient restClient, URI userInfoUri) {
         this.restClient = Objects.requireNonNull(restClient, "restClient must not be null");
         this.userInfoUri = Objects.requireNonNull(userInfoUri, "userInfoUri must not be null");
     }

@@ -1,6 +1,5 @@
 package github.com.rexfilius.accountservice.config;
 
-import github.com.rexfilius.accountservice.service.security.CustomUserInfoOpaqueTokenIntrospector;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +10,6 @@ import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2A
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,7 +24,7 @@ import java.net.URI;
 //@EnableConfigurationProperties(SecurityProps.class)
 @Configuration
 @EnableMethodSecurity
-public class ResourceServerConfig {
+public class AccountServerConfig {
     /**
      * Where your auth server exposes user info (what your old TokenServices used).
      */
@@ -45,7 +42,7 @@ public class ResourceServerConfig {
     @Bean
     OpaqueTokenIntrospector opaqueTokenIntrospector(RestClient.Builder restClientBuilder) {
         // Your new implementation that replaces CustomUserInfoTokenServices
-        return new CustomUserInfoOpaqueTokenIntrospector(restClientBuilder.build(), userInfoUri);
+        return new AccountOpaqueTokenIntrospector(restClientBuilder.build(), userInfoUri);
     }
 
     /**
