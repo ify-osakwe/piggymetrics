@@ -27,6 +27,23 @@ services:
       retries: 5
       start_period: 15s
   
+  auth-service:
+    build:
+      context: ./auth-service
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
+      STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
+      NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    ports:
+      - "5027:5027"
+    depends_on:
+      config:
+        condition: service_started
+      auth-service-db:
+        condition: service_healthy
+  
   auth-service-db:
     image: mongo:7
     restart: always

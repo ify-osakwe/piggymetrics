@@ -1,7 +1,47 @@
-FROM java:8-jre
-MAINTAINER Alexander Lukyanchikov <sqshq@sqshq.com>
+FROM eclipse-temurin:21-jdk-jammy AS deps
+WORKDIR /build
+COPY --chmod=0755 mvnw mvnw
+COPY .mvn/ .mvn/
+RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+    --mount=type=cache,target=/root/.m2 ./mvnw dependency:go-offline -DskipTests
 
-ADD ./target/auth-service.jar /app/
-CMD ["java", "-Xmx200m", "-jar", "/app/auth-service.jar"]
+FROM deps AS package
+WORKDIR /build
+COPY ./src src/
+RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+    --mount=type=cache,target=/root/.m2 \
+    ./mvnw package -DskipTests && \
+    mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
 
+FROM package AS extract
+WORKDIR /build
+RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
+#RUN java -Djarmode=tools -jar target/app.jar extract --destination target/extracted
+
+FROM extract AS development
+WORKDIR /build
+COPY --from=extract /build/target/extracted/dependencies/. ./
+COPY --from=extract /build/target/extracted/spring-boot-loader/. ./
+COPY --from=extract /build/target/extracted/snapshot-dependencies/. ./
+COPY --from=extract /build/target/extracted/application/. ./
+ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000
+#CMD [ "java", "org.springframework.boot.loader.launch.JarLauncher" ]
+CMD ["java", "-Dspring.profiles.active=mongodb", "org.springframework.boot.loader.launch.JarLauncher"]
+
+FROM eclipse-temurin:21-jre-jammy AS final
+ARG UID=10001
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid "${UID}" \
+    appuser
+USER appuser
+COPY --from=extract build/target/extracted/dependencies/ ./
+COPY --from=extract build/target/extracted/spring-boot-loader/ ./
+COPY --from=extract build/target/extracted/snapshot-dependencies/ ./
+COPY --from=extract build/target/extracted/application/ ./
 EXPOSE 5000
+ENTRYPOINT ["java", "-Dspring.profiles.active=mongodb", "org.springframework.boot.loader.launch.JarLauncher"]
