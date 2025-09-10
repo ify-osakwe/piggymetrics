@@ -8,6 +8,17 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     ports:
       - "8888:8888"
+  
+  registry:
+    build:
+      context: ./registry
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    ports:
+      - "8761:8761"
+    depends_on:
+      config:
+        condition: service_started
 
   rabbitmq:
     image: rabbitmq:3.13-management

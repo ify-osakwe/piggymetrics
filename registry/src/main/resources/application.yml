@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: registry
+  config:
+    import: "configserver:http://config:8888"
+  cloud:
+    config:
+      username: user
+      password: ${CONFIG_SERVICE_PASSWORD}
+      fail-fast: true
+      retry:
+        maxAttempts: 30
+        initialInterval: 2000
+        maxInterval: 10000
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    wait-time-in-ms-when-sync-empty: 0
